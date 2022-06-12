@@ -58,7 +58,7 @@ public final class Client {
     public void start() {
         instance = this;
         AntiCheat.removeCheats();
-        Display.setTitle("Remaidner - " + this.getVersion());
+        Display.setTitle("Remainder - " + this.getVersion());
         Logger.info("Starting Up.");
         eventM.register(this);
         (this.config = new Config()).loadModConfig();
