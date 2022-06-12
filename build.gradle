@@ -1,0 +1,112 @@
+buildscript {
+    repositories {
+        mavenCentral()
+        maven {
+            url "https://files.minecraftforge.net/maven"
+        }
+        maven {
+            url "https://repo.spongepowered.org/maven"
+        }
+        maven {
+            url "https://plugins.gradle.org/m2"
+        }
+    }
+    dependencies {
+        classpath "net.minecraftforge.gradle:ForgeGradle:2.1-SNAPSHOT"
+        classpath "org.spongepowered:mixingradle:0.6-SNAPSHOT"
+    }
+}
+
+
+apply plugin: "net.minecraftforge.gradle.tweaker-client"
+apply plugin: "org.spongepowered.mixin"
+apply plugin: "java"
+
+def tweaker = "me.geesy.mixin.Tweaker"
+
+sourceCompatibility = 8
+targetCompatibility = 8
+
+minecraft {
+    version = "1.8.9"
+    tweakClass = tweaker
+    mappings = "stable_22"
+    runDir = "run"
+    makeObfSourceJar = true
+    accessTransformer('src/main/resources/remainder_at.cfg')
+}
+
+mixin {
+    defaultObfuscationEnv notch
+    add sourceSets.main, "mixins.remainder.refmap.json"
+}
+
+repositories {
+    mavenCentral()
+    maven {
+        url "https://libraries.minecraft.net"
+    }
+    maven {
+        url "https://repo.spongepowered.org/maven"
+    }
+}
+
+configurations {
+    dependency
+    implementation.extendsFrom dependency
+    runtime.extendsFrom dependency
+}
+
+dependencies {
+    dependency("org.spongepowered:mixin:0.7.11-SNAPSHOT") {
+        exclude module: "launchwrapper"
+        exclude module: "guava"
+        exclude module: "gson"
+        exclude module: "commons-io"
+    }
+        compileOnly 'org.projectlombok:lombok:1.18.24'
+        annotationProcessor 'org.projectlombok:lombok:1.18.24'
+
+        testCompileOnly 'org.projectlombok:lombok:1.18.24'
+        testAnnotationProcessor 'org.projectlombok:lombok:1.18.24'
+
+        implementation 'org.projectlombok:lombok:1.18.22',
+            'com.labymedia:ultralight-java-base:0.4.12',
+            'com.labymedia:ultralight-java-databind:0.4.12',
+            'org.apache.logging.log4j:log4j-core:2.17.1'
+        dependency 'org.slick2d:slick2d-core:1.0.2'
+        dependency 'com.google.code.gson:gson:2.8.9'
+        dependency('com.jagrosh:DiscordIPC:0.4') {
+            exclude module: 'log4j'
+        }
+        compile fileTree(include: ['*.jar'], dir: 'lib')
+        compile group: 'org.reflections', name: 'reflections', version: '0.9.10'
+}
+
+version = "1.0.0"
+group = "me.geesy.remainder"
+
+def run = new File(projectDir, "run");
+def content = """<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<launchConfiguration type="org.eclipse.jdt.launching.localJavaApplication">
+    <listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_PATHS">
+        <listEntry value="/${project.name}"/>
+    </listAttribute>
+    <listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_TYPES">
+        <listEntry value="4"/>
+    </listAttribute>
+    <booleanAttribute key="org.eclipse.jdt.launching.ATTR_ATTR_USE_ARGFILE" value="false"/>
+    <booleanAttribute key="org.eclipse.jdt.launching.ATTR_USE_CLASSPATH_ONLY_JAR" value="false"/>
+    <stringAttribute key="org.eclipse.jdt.launching.CLASSPATH_PROVIDER" value="org.eclipse.buildship.core.classpathprovider"/>
+    <stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="GradleStart"/>
+    <stringAttribute key="org.eclipse.jdt.launching.MODULE_NAME" value="${project.name}"/>
+    <stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS" value="--tweakClass $tweaker"/>
+    <stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="${project.name}"/>
+    <stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-Xmx1G -DFORGE_FORCE_FRAME_RECALC=true"/>
+    <stringAttribute key="org.eclipse.jdt.launching.WORKING_DIRECTORY" value="${run.getAbsolutePath()}"/>
+</launchConfiguration>"""
+
+run.mkdirs()
+
+def file = new File(projectDir, "client.launch")
+file.write(content)
