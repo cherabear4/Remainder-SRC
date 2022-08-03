@@ -15,6 +15,7 @@ public class FeatherCard {
 
 
 	Minecraft mc = Minecraft.getMinecraft();
+	//static var that allows scroll
     public int scrollAmount;
 	public int x;
 	public int y;
@@ -36,6 +37,8 @@ public class FeatherCard {
 	}
 	
 	public void drawFrame() {
+		
+		//This is the mod card
 
         GlStateManager.pushMatrix();
         GlStateManager.translate(0, 0 - FeatherClickGUI.scrolled, 0.0f);
@@ -46,12 +49,10 @@ public class FeatherCard {
         GL11.glColor3f(1.0f, 1.0f, 1.0f);
         RenderUtil.drawImage(this.texture, this.x, this.y - 60, 40, 40);
         GlStateManager.popMatrix();
-        //RenderUtil.drawImage(new ResourceLocation(texture), this.x, this.y - 60, 40, 40);
-
-
-
-        //Gui.drawRect(this.x, this.y - 5, this.x + this.w, this.y + this.h + 4, this.getColor());
+		
         if(m.isEnabled()) {
+		
+		//Button for enabled
             GlStateManager.pushMatrix();
 
             GlStateManager.translate(0.0f, 0.0f - FeatherClickGUI.scrolled, 0.0f);
@@ -60,11 +61,9 @@ public class FeatherCard {
             RenderUtil.drawRoundedRect(this.x + this.w + 4, this.w + y - 62, this.x + this.w + 18, this.w + y - 48, 14, new Color(24, 77, 18, 255).getRGB());
             GlStateManager.popMatrix();
 
-            // OUTLINE
-            //RenderUtil.drawRoundedOutline(this.x + 140, this.w + y - 8, this.x + this.w - 10,
-            //this.w + y + 13 + yPosition, 10, 1, new Color(73, 131, 245, 255).getRGB());
-
         } else {
+		
+		//Disabled Button
 
             GlStateManager.pushMatrix();
             GlStateManager.translate(0.0f, 0.0f - FeatherClickGUI.scrolled, 0.0f);
