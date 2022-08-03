@@ -63,17 +63,9 @@ public class FeatherClickGUI extends GuiScreen {
                 xAdd = 0;
                 yAdd += 105;
             }
-
-
-
-                this.featherCard.add(new FeatherCard(x + 200 + xAdd, y + 50 + yAdd, 65, mc.fontRendererObj.FONT_HEIGHT + 5, m, new ResourceLocation(m.image)));
-
-
-
-
+            //Mapping out cards with the given props from the mods and what not
+            this.featherCard.add(new FeatherCard(x + 200 + xAdd, y + 50 + yAdd, 65, mc.fontRendererObj.FONT_HEIGHT + 5, m, new ResourceLocation(m.image)));
             xAdd += xFactor;
-
-            //if scrolling isnt needed then it will not scroll
 
 
 
@@ -86,7 +78,8 @@ public class FeatherClickGUI extends GuiScreen {
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
         //Scrolling!!
         BlurUtil.blur2(0, 0, 1920, 1080, 0, 0);
-
+        
+        //Getting the scroll wheel
         int eventDWheel = Mouse.getDWheel();
 
 
@@ -95,11 +88,14 @@ public class FeatherClickGUI extends GuiScreen {
             //System.out.println("Scrolling down");
         } else if (eventDWheel > 0) {
             scrolled += 10;
+            //Scrolling up
         }
-        if(scrolled < 0) {
+        
+        if(scrolled < 0) { //prevents scrolling where we dont need to scroll
             scrolled = (spots * xFactor) - (spots * xFactor);
         }
         if(scrolled > (spots * xFactor) + 50) {
+            //i believe (i forgot) that this resets the scrolling if we go too far down
             scrolled = (spots * xFactor) - (spots * xFactor);
         }
         ScaledResolution sr = new ScaledResolution(mc);
@@ -165,7 +161,8 @@ public class FeatherClickGUI extends GuiScreen {
         this.searchField.mouseClicked(mouseX, mouseY, mouseButton);
 
     }
-
+    
+    //Methods for the search bar
     @Override
     protected void keyTyped(final char character, final int key) throws IOException {
         try {
@@ -179,7 +176,8 @@ public class FeatherClickGUI extends GuiScreen {
         if (character == '\r') {
             this.featherCard.clear();
             for (HudMod m : Client.getInstance().getHudManager().hudMods) {
-
+                
+                //Search function
                 if (m.name.toLowerCase().startsWith(this.searchField.getText().toLowerCase()) || m.name.toLowerCase().contains(this.searchField.getText().toLowerCase())) {
                     while ((spots * xFactor) < (350)) {
                         spots++;
@@ -190,7 +188,7 @@ public class FeatherClickGUI extends GuiScreen {
                             yAdd += 105;
                         }
 
-
+                        //Rendering cards based off of the search?
                         this.featherCard.add(new FeatherCard(x + 200 + xAdd, y + yAdd, 65, mc.fontRendererObj.FONT_HEIGHT + 5, j, new ResourceLocation(j.image)));
 
 
