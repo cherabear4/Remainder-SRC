@@ -24,6 +24,7 @@ public class CustomZoom extends Mod {
         if(mc.theWorld != null) {
             if(Keybinds.ZOOM.isPressed()) {
                 int eventDWheel = Mouse.getDWheel();
+                //Middle mouse check
                 if(eventDWheel < 0) {
                     scrollAmount += 2;
                 } else if(eventDWheel > 0) {
@@ -31,6 +32,7 @@ public class CustomZoom extends Mod {
                 }
                 zoomed = false;
                 int mouse = Mouse.getDWheel();
+                //honestly forgot what this does, if im being honest github copilot suggested this line under me and it worked
                 mc.gameSettings.fovSetting = (int) (mc.gameSettings.mouseSensitivity * 100 + scrollAmount);
 
 
