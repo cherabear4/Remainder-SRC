@@ -35,11 +35,12 @@ public class HUDConfigScreen extends GuiScreen{
 	
 	@Override
 	public void drawScreen(int mouseX, int mouseY, float partialTicks) {
+		//This is for in game
 		if(mc.thePlayer != null && mc.theWorld != null) {
 			this.drawDefaultBackground();
 			BlurUtil.blur2(0, 0, 1920, 1080, 0, 0);
 		} else {
-
+			//This is to edit the hud inside the main menu
 			mc.getTextureManager().bindTexture(new ResourceLocation("client/images/background_menu.png"));
 			Gui.drawModalRectWithCustomSizedTexture(-21 + Mouse.getX() / 90, Mouse.getY() * -1 / 90, 0.0F, 0.0F, this.width + 20, this.height + 20, (float)(this.width + 21), (float)(this.height + 20));
 			BlurUtil.blur2(0, 0, 1920, 1080, 0, 0);
@@ -49,16 +50,20 @@ public class HUDConfigScreen extends GuiScreen{
 		GlStateManager.pushMatrix();
 		GlStateManager.disableBlend();
 		GL11.glColor3f(1.0F, 1.0F, 1.0F);
+		//Drawing icons
 		RenderUtil.drawImage(new ResourceLocation("client/icons/edit-icon.png"), width / 2 - 25, height / 2 - 25, 50, 50);
 		RenderUtil.drawImage(new ResourceLocation("client/icons/cape-icon.png"), width / 2.5f - 17, height / 2 - 15, 30, 30);
 		GlStateManager.popMatrix();
+		
+		//Setting the hover dimensions
 		if (mouseX >= width / 2 - 50 && mouseY >= height / 2 - 50 && mouseX < width / 2 + 50 && mouseY < height / 2 + 50) {
 			this.isHovered = true;
 		} else {
 			this.isHovered = false;
 
 		}
-
+		
+		//Checking if we hover over the circle if we do then it draws the white outline and fades it (somewhat unstable and can crash but it works)
 		if (this.isHovered) {
 			if (this.animatedOpcaity < 255) {
 						this.animatedOpcaity += 3;
@@ -68,13 +73,16 @@ public class HUDConfigScreen extends GuiScreen{
 				this.animatedOpcaity -= 3;
 			}
 		}
+		
+		//Rendering all the mods that are enabled (so we can drag them around)
 		for(HudMod m : Client.getInstance().getHudManager().hudMods) {
 			if(m.isEnabled()) {
 				m.renderDummy(mouseX, mouseY);
 			}
 
 		}
-
+		
+		//Draws a hollowed circle around the normal cicle when hovered (animated)
 		RenderUtil.drawRoundedOutline(width / 2 - 49, height / 2 - 49,   width / 2 + 49, height / 2 + 49, 98, 3, new Color(255,255,255,this.animatedOpcaity).getRGB());
 
 		super.drawScreen(mouseX, mouseY, partialTicks);
@@ -89,9 +97,11 @@ public class HUDConfigScreen extends GuiScreen{
 
 	public void onClick(final int mouseX, final int mouseY, final int button) {
 		if (mouseX >= width / 2 - 50 && mouseY >= height / 2 - 50 && mouseX < width / 2 + 50 && mouseY < height / 2 + 50) {
+			//When you click the circle in the middle of the screen it changes the screen to the clickgui
 			mc.displayGuiScreen(new FeatherClickGUI());
 		}
 		if (mouseX >= width / 2.5f - 30 && mouseY >= height / 2 - 30 && mouseX < width / 2.5f + 30 && mouseY < height / 2 + 30) {
+			//Button on the left clicked opens capegui screen
 			mc.displayGuiScreen(new CapeGui());
 		}
 	}
