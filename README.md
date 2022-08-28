@@ -6,3 +6,6 @@ This was a project that i was working on it is now open sourced, some stuff is s
 * Thank you to everyone who helps out! @Choppa @Lappun0 @sdxqw
 
 If you are new to java I highly recommend making pull requests! they can help with building skill, they dont have to be anything crazy, fixing a typo even helps! please contribute!
+
+# In case of discord name change!
+https://linktr.ee/editsbyosu
