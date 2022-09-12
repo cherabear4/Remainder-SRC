@@ -1,7 +1,5 @@
 package me.geesy.remainder.ui.mainmenu;
 
-import me.geesy.remainder.cosmetic.gui.CapeGui;
-import me.geesy.remainder.mixin.interfaces.IEntityRenderer;
 import me.geesy.remainder.ui.configscreen.HUDConfigScreen;
 import me.geesy.remainder.ui.loginfield.AltManagerGui;
 import me.geesy.remainder.ui.mainmenu.util.MenuButton;
@@ -36,9 +34,11 @@ public class MainMenu extends GuiScreen {
     public ResourceLocation BACKGROUND3 = new ResourceLocation("client/images/shaders3.jpg");
     public ResourceLocation BACKGROUND4 = new ResourceLocation("client/images/shaders4.jpg");
 
+    //create class constant for s var instead of repeating in methods
+    private final ScaledResolution s = new ScaledResolution(mc);
+
     @Override
     public void initGui() {
-        ScaledResolution s = new ScaledResolution(mc);
         //((IEntityRenderer) mc.entityRenderer).invokeLoadShader(new ResourceLocation("shaders/post/menu_blur.json"));
         System.out.println(s.getScaledWidth() + " " + s.getScaledHeight());
 
@@ -55,7 +55,6 @@ public class MainMenu extends GuiScreen {
 
     @Override
     public void drawScreen(int p_drawScreen_1_, int p_drawScreen_2_, float p_drawScreen_3_) {
-        ScaledResolution s = new ScaledResolution(mc);
         if(background == BackgroundEnum.BACKGROUND_1) {
             mc.getTextureManager().bindTexture(BACKGROUND1);
         } else if(background == BackgroundEnum.BACKGROUND_2){
@@ -119,6 +118,7 @@ public class MainMenu extends GuiScreen {
     @Override
     protected void mouseClicked(int mouseX, int mouseY, int p_mouseClicked_3_) throws IOException {
         super.mouseClicked(mouseX, mouseY, p_mouseClicked_3_);
+        ScaledResolution s = new ScaledResolution(mc);
         if (mouseX >= s.getScaledWidth() - 25 && mouseX <= s.getScaledWidth() - 5 && mouseY >= s.getScaledHeight() / 50 - 5 && mouseY <= s.getScaledHeight() / 50 + 15) {
             mc.shutdown();
             Logger.info("Shutting down!");

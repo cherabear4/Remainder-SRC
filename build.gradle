@@ -70,12 +70,12 @@ dependencies {
         testCompileOnly 'org.projectlombok:lombok:1.18.24'
         testAnnotationProcessor 'org.projectlombok:lombok:1.18.24'
 
-        implementation 'org.projectlombok:lombok:1.18.22',
+        implementation 'org.projectlombok:lombok:1.18.24',
             'com.labymedia:ultralight-java-base:0.4.12',
             'com.labymedia:ultralight-java-databind:0.4.12',
-            'org.apache.logging.log4j:log4j-core:2.17.1'
+                'org.apache.logging.log4j:log4j-core:2.18.0'
         dependency 'org.slick2d:slick2d-core:1.0.2'
-        dependency 'com.google.code.gson:gson:2.8.9'
+        dependency 'com.google.code.gson:gson:2.9.0'
         dependency('com.jagrosh:DiscordIPC:0.4') {
             exclude module: 'log4j'
         }
