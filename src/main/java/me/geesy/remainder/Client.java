@@ -1,6 +1,5 @@
 package me.geesy.remainder;
 
-import com.google.common.eventbus.EventBus;
 import lombok.Getter;
 import me.geesy.remainder.event.EventManager;
 import me.geesy.remainder.event.EventTarget;
@@ -22,7 +21,7 @@ import org.lwjgl.opengl.Display;
 public final class Client {
 
     @Getter private static Client instance;
-    @Getter private static Minecraft mc = Minecraft.getMinecraft();
+    @Getter private static final Minecraft mc = Minecraft.getMinecraft(); //made this variable final
 
     @EventTarget
     public void tickEvent(ClientTick tick){
@@ -60,7 +59,7 @@ public final class Client {
         AntiCheat.removeCheats();
         Display.setTitle("Remainder - " + this.getVersion());
         Logger.info("Starting Up.");
-        eventM.register(this);
+        EventManager.register(this);
         (this.config = new Config()).loadModConfig();
         this.hudManager = new HudManager();
         this.modManager = new ModManager();
@@ -70,7 +69,7 @@ public final class Client {
 
     public void stop() {
         config.saveModConfig();
-        eventM.unregister(this);
+        EventManager.unregister(this);
         Logger.info("Shutting Down.");
     }
 
