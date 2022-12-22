@@ -1,0 +1,26 @@
+{
+  "required": true,
+  "minVersion": "0.6",
+  "compatibilityLevel": "JAVA_8",
+  "package": "me.geesy.remainder.mixin",
+  "refmap": "mixins.remainder.refmap.json",
+  "verbose": true,
+  "mixins": [
+    "MixinAbstractResourcePack",
+    "MixinEntityPlayer",
+    "MixinEntityPlayerSP",
+    "MixinGameSettings",
+    "MixinGui",
+    "MixinGuiIngame",
+    "MixinGuiIngameMenu",
+    "MixinGuiMainMenu",
+    "MixinIKeyBinding",
+    "MixinItemRenderer",
+    "MixinMinecraft",
+    "MixinNetHandlerPlayClient",
+    "MixinRenderPlayer",
+    "accessor.AccessorSession",
+    "accessor.AccessorShaderGroup",
+    "accessor.AccessorTimer"
+  ]
+}

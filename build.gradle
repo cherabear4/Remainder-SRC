@@ -14,12 +14,14 @@ buildscript {
     dependencies {
         classpath "net.minecraftforge.gradle:ForgeGradle:2.1-SNAPSHOT"
         classpath "org.spongepowered:mixingradle:0.6-SNAPSHOT"
+        classpath 'com.github.jengelman.gradle.plugins:shadow:1.2.3'
     }
 }
 
 
 apply plugin: "net.minecraftforge.gradle.tweaker-client"
 apply plugin: "org.spongepowered.mixin"
+apply plugin: 'com.github.johnrengelman.shadow'
 apply plugin: "java"
 
 def tweaker = "me.geesy.mixin.Tweaker"
@@ -32,7 +34,7 @@ minecraft {
     tweakClass = tweaker
     mappings = "stable_22"
     runDir = "run"
-    makeObfSourceJar = true
+    makeObfSourceJar = false
     accessTransformer('src/main/resources/remainder_at.cfg')
 }
 
@@ -48,6 +50,10 @@ repositories {
     }
     maven {
         url "https://repo.spongepowered.org/maven"
+    }
+    maven {
+        name = "jitpack.io"
+        url = "https://jitpack.io"
     }
 }
 
@@ -70,12 +76,18 @@ dependencies {
         testCompileOnly 'org.projectlombok:lombok:1.18.24'
         testAnnotationProcessor 'org.projectlombok:lombok:1.18.24'
 
-        implementation 'org.projectlombok:lombok:1.18.24',
-            'com.labymedia:ultralight-java-base:0.4.12',
-            'com.labymedia:ultralight-java-databind:0.4.12',
-                'org.apache.logging.log4j:log4j-core:2.18.0'
-        dependency 'org.slick2d:slick2d-core:1.0.2'
-        dependency 'com.google.code.gson:gson:2.9.0'
+    testCompileOnly 'org.projectlombok:lombok:1.18.24'
+    testAnnotationProcessor 'org.projectlombok:lombok:1.18.24'
+
+    implementation 'org.projectlombok:lombok:1.18.24'
+    'com.labymedia:ultralight-java-base:0.4.12'
+    'com.labymedia:ultralight-java-databind:0.4.12'
+    'org.apache.logging.log4j:log4j-core:2.18.0'
+    dependency 'org.slick2d:slick2d-core:1.0.2'
+    dependency 'com.google.code.gson:gson:2.9.0'
+    dependency('com.jagrosh:DiscordIPC:0.4') {
+        exclude module: 'log4j'
+    }
         dependency('com.jagrosh:DiscordIPC:0.4') {
             exclude module: 'log4j'
         }
@@ -107,6 +119,15 @@ def content = """<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 </launchConfiguration>"""
 
 run.mkdirs()
+
+reobf {
+    shadowJar {
+        mappingType = 'SEARGE'
+        classpath = sourceSets.main.compileClasspath
+    }
+}
+
+build.dependsOn(shadowJar)
 
 def file = new File(projectDir, "client.launch")
 file.write(content)
